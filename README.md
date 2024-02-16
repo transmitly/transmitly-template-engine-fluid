@@ -10,7 +10,7 @@ To use the Fluid template engine, first install the [NuGet package](https://nuge
 dotnet add package Transmitly.TemplateEngine.Fluid
 ```
 
-Then add the channel provider using `AddFluidTemplateEngine()`:
+Then add the template engine using `AddFluidTemplateEngine()`:
 
 ```csharp
 using Transmitly;
