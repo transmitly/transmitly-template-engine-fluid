@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT'">net48;net471</TargetFrameworks>
+		<TargetFrameworks>$(TargetFrameworks);netstandard2.0;net6.0</TargetFrameworks>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<AssemblyVersion>0.0.1</AssemblyVersion>
+		<AssemblyFileVersion>0.0.1</AssemblyFileVersion>
+		<PackageId>Transmitly.TemplateEngine.Fluid</PackageId>
+		<Product>Transmitly</Product>
+		<ProductName>Transmit.ly</ProductName>
+		<Company>Code Impressions</Company>
+		<Title>Transmit.ly Fluid Template Engine</Title>
+		<Description>A template engine for the Transmitly communications library.</Description>
+		<Copyright>Copyright © (c) Code Impressions, LLC</Copyright>
+		<Authors>Code Impressions</Authors>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<PackageIcon>icon-dark.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/transmitly/transmitly-template-engine-fluid.git</RepositoryUrl>
+		<PackageTags>template engine;fluid;fluid template; transmitly</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\assets\icon-dark.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\..\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Fluid.Core" Version="2.5.0" />
+		<PackageReference Include="Transmitly" Version="0.1.0-*" />
+	</ItemGroup>
+</Project>
