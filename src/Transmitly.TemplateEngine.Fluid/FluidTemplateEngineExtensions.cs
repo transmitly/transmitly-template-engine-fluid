@@ -50,7 +50,7 @@ namespace Transmitly
 			return AddFluidTemplateEngine(communicationsClientBuilder.TemplateEngine, (opts) => { });
 		}
 
-		public static CommunicationsClientBuilder AddFluidTemplating(this CommunicationsClientBuilder communicationsClientBuilder, Action<FluidParserOptions> options)
+		public static CommunicationsClientBuilder AddFluidTemplateEngine(this CommunicationsClientBuilder communicationsClientBuilder, Action<FluidParserOptions> options)
 		{
 			return AddFluidTemplateEngine(communicationsClientBuilder.TemplateEngine, options, Id.TemplateEngines.Fluid());
 		}
