@@ -27,15 +27,16 @@ namespace Transmitly
 			_parser = new FluidParser(fluidParserOptions);
 		}
 
-		public async Task<string?> RenderAsync(IContentTemplateRegistration? registration, IContentModel? contentModel)
+		public async Task<string?> RenderAsync(IContentTemplateRegistration? registration, IDispatchCommunicationContext? context)
 		{
-			if (registration == null || contentModel == null)
+			if (registration == null || context == null)
 				return null;
-			var source = await registration.GetContentAsync();
+			var source = await registration.GetContentAsync(context);
 			if (_parser.TryParse(source, out var template, out var error))
 			{
-				var context = new TemplateContext(contentModel.Model);
-				return template.Render(context);
+
+				var templateContext = new TemplateContext(context.ContentModel?.Model);
+				return template.Render(templateContext);
 			}
 			System.Diagnostics.Debug.WriteLine($"{nameof(FluidTemplateEngine)} {error}");
 			return null;
