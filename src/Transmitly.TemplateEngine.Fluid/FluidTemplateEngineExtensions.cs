@@ -21,13 +21,12 @@ namespace Transmitly
 	public static class FluidTemplateEngineExtensions
 	{
 		private const string FluidId = "Fluid";
-		private const string DefaultProviderId = "Default";
 
-		public static string Fluid(this TemplateEngines templateEngines, string? providerId = DefaultProviderId)
+		public static string Fluid(this TemplateEngines templateEngines, string? providerId = null)
 		{
 			Guard.AgainstNull(templateEngines);
 
-			return $"{FluidId}.{(!string.IsNullOrWhiteSpace(providerId) ? providerId : DefaultProviderId)}";
+			return templateEngines.GetId(FluidId, providerId);
 		}
 
 		public static CommunicationsClientBuilder AddFluidTemplateEngine(this TemplateConfigurationBuilder templateConfiguration, Action<FluidParserOptions> options, string? templateEngineId = null)
