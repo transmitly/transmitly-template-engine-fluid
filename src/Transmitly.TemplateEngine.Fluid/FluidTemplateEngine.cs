@@ -34,7 +34,7 @@ namespace Transmitly
 			var source = await registration.GetContentAsync(context);
 			if (_parser.TryParse(source, out var template, out var error))
 			{
-				var templateContext = new TemplateContext(context.ContentModel?.Model??new{ });
+				var templateContext = new TemplateContext(context.ContentModel?.Model ?? new { });
 				return await template.RenderAsync(templateContext);
 			}
 			System.Diagnostics.Debug.WriteLine($"{nameof(FluidTemplateEngine)} {error}");

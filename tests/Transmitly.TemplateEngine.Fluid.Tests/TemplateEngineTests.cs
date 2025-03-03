@@ -18,104 +18,104 @@ using Transmitly.Template.Configuration;
 
 namespace Transmitly.TemplateEngine.Fluid.Tests
 {
-    [TestClass]
-    public class TemplateEngineTests
-    {
-        [TestMethod]
-        public async Task CanRender()
-        {
-            var expected = "Hello World!";
-            var templateContent = "Hello {{name}}!";
-            var template = new Mock<IContentTemplateRegistration>();
-            template.Setup(s => s.GetContentAsync(It.IsAny<IDispatchCommunicationContext>())).Returns(Task.FromResult<string?>(templateContent));
-            //var model = new Mock<IContentModel>();
-            var x = typeof(IContentModel).Assembly.GetTypes().Where(t => t.Name == "ContentModel");
-            var tm = TransactionModel.Create(new { name = "World" });
-            var instance = Guard.AgainstNull((IContentModel?)Activator.CreateInstance(x.First(), tm, Array.Empty<IPlatformIdentity>()));
+	[TestClass]
+	public class TemplateEngineTests
+	{
+		[TestMethod]
+		public async Task CanRender()
+		{
+			var expected = "Hello World!";
+			var templateContent = "Hello {{name}}!";
+			var template = new Mock<IContentTemplateRegistration>();
+			template.Setup(s => s.GetContentAsync(It.IsAny<IDispatchCommunicationContext>())).Returns(Task.FromResult<string?>(templateContent));
+			//var model = new Mock<IContentModel>();
+			var x = typeof(IContentModel).Assembly.GetTypes().Where(t => t.Name == "ContentModel");
+			var tm = TransactionModel.Create(new { name = "World" });
+			var instance = Guard.AgainstNull((IContentModel?)Activator.CreateInstance(x.First(), tm, Array.Empty<IPlatformIdentity>()));
 
-            var context = new Mock<IDispatchCommunicationContext>();
-            context.Setup(s => s.ContentModel).Returns(instance);
-            var engine = new FluidTemplateEngine(new FluidParserOptions { });
+			var context = new Mock<IDispatchCommunicationContext>();
+			context.Setup(s => s.ContentModel).Returns(instance);
+			var engine = new FluidTemplateEngine(new FluidParserOptions { });
 
-            var result = await engine.RenderAsync(template.Object, context.Object);
+			var result = await engine.RenderAsync(template.Object, context.Object);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(expected, result);
-        }
-        class TestPlatformIdentity : IPlatformIdentity
-        {
-            public string? Id { get; set; }
-            public string? Name { get; set; }
-            public string? Type { get; set; }
-            public IReadOnlyCollection<IIdentityAddress> Addresses { get; set; }
-        }
+			Assert.IsNotNull(result);
+			Assert.AreEqual(expected, result);
+		}
+		class TestPlatformIdentity : IPlatformIdentity
+		{
+			public string? Id { get; set; }
+			public string? Name { get; set; }
+			public string? Type { get; set; }
+			public IReadOnlyCollection<IIdentityAddress> Addresses { get; set; }
+		}
 
-        [TestMethod]
-        public async Task CanHandleAudienceLists()
-        {
-            var expected = "Hello World!";
-            var templateContent = "Hello {{aud[0].Name}}!";
-            var template = new Mock<IContentTemplateRegistration>();
-            template.Setup(s => s.GetContentAsync(It.IsAny<IDispatchCommunicationContext>())).Returns(Task.FromResult<string?>(templateContent));
+		[TestMethod]
+		public async Task CanHandleAudienceLists()
+		{
+			var expected = "Hello World!";
+			var templateContent = "Hello {{aud[0].Name}}!";
+			var template = new Mock<IContentTemplateRegistration>();
+			template.Setup(s => s.GetContentAsync(It.IsAny<IDispatchCommunicationContext>())).Returns(Task.FromResult<string?>(templateContent));
 
-            var tm = TransactionModel.Create(new { name = "Not World" });
+			var tm = TransactionModel.Create(new { name = "Not World" });
 
-            var identity = new TestPlatformIdentity() { Name = "World" };
+			var identity = new TestPlatformIdentity() { Name = "World" };
 
-            var contentModelType = typeof(IContentModel).Assembly.GetTypes().Where(t => t.Name == "ContentModel").First();
-            var cm = (IContentModel?)Activator.CreateInstance(contentModelType, tm, new List<IPlatformIdentity> { identity });
+			var contentModelType = typeof(IContentModel).Assembly.GetTypes().Where(t => t.Name == "ContentModel").First();
+			var cm = (IContentModel?)Activator.CreateInstance(contentModelType, tm, new List<IPlatformIdentity> { identity });
 
-            var context = new Mock<IDispatchCommunicationContext>();
-            context.Setup(s => s.ContentModel).Returns(cm);
-            var engine = new FluidTemplateEngine(new FluidParserOptions { });
+			var context = new Mock<IDispatchCommunicationContext>();
+			context.Setup(s => s.ContentModel).Returns(cm);
+			var engine = new FluidTemplateEngine(new FluidParserOptions { });
 
-            var result = await engine.RenderAsync(template.Object, context.Object);
+			var result = await engine.RenderAsync(template.Object, context.Object);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(expected, result);
-        }
+			Assert.IsNotNull(result);
+			Assert.AreEqual(expected, result);
+		}
 
-        [TestMethod]
-        public async Task CanRenderWithNullModel()
-        {
+		[TestMethod]
+		public async Task CanRenderWithNullModel()
+		{
 
-            var expected = "Hello !";
-            var templateContent = "Hello {{name}}!";
-            var template = new Mock<IContentTemplateRegistration>();
-            template.Setup(s => s.GetContentAsync(It.IsAny<IDispatchCommunicationContext>())).Returns(Task.FromResult<string?>(templateContent));
-            var model = new Mock<IContentModel>();
+			var expected = "Hello !";
+			var templateContent = "Hello {{name}}!";
+			var template = new Mock<IContentTemplateRegistration>();
+			template.Setup(s => s.GetContentAsync(It.IsAny<IDispatchCommunicationContext>())).Returns(Task.FromResult<string?>(templateContent));
+			var model = new Mock<IContentModel>();
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-            model.Setup(s => s.Model).Returns(null);
+			model.Setup(s => s.Model).Returns(null);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
-            var context = new Mock<IDispatchCommunicationContext>();
-            context.Setup(s => s.ContentModel).Returns(model.Object);
-            var engine = new FluidTemplateEngine(new FluidParserOptions() { });
+			var context = new Mock<IDispatchCommunicationContext>();
+			context.Setup(s => s.ContentModel).Returns(model.Object);
+			var engine = new FluidTemplateEngine(new FluidParserOptions() { });
 
-            var result = await engine.RenderAsync(template.Object, context.Object);
+			var result = await engine.RenderAsync(template.Object, context.Object);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(expected, result);
-        }
+			Assert.IsNotNull(result);
+			Assert.AreEqual(expected, result);
+		}
 
-        [TestMethod]
-        public async Task ShouldReturnNullWithInvalidTemplate()
-        {
-            var expected = "Hello !";
-            var templateContent = "Hello {{{name}}!";
-            var template = new Mock<IContentTemplateRegistration>();
-            template.Setup(s => s.GetContentAsync(It.IsAny<IDispatchCommunicationContext>())).Returns(Task.FromResult<string?>(templateContent));
-            var model = new Mock<IContentModel>();
+		[TestMethod]
+		public async Task ShouldReturnNullWithInvalidTemplate()
+		{
+			var expected = "Hello !";
+			var templateContent = "Hello {{{name}}!";
+			var template = new Mock<IContentTemplateRegistration>();
+			template.Setup(s => s.GetContentAsync(It.IsAny<IDispatchCommunicationContext>())).Returns(Task.FromResult<string?>(templateContent));
+			var model = new Mock<IContentModel>();
 
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-            model.Setup(s => s.Model).Returns(null);
+			model.Setup(s => s.Model).Returns(null);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
-            var context = new Mock<IDispatchCommunicationContext>();
-            context.Setup(s => s.ContentModel).Returns(model.Object);
-            var engine = new FluidTemplateEngine(new FluidParserOptions { });
+			var context = new Mock<IDispatchCommunicationContext>();
+			context.Setup(s => s.ContentModel).Returns(model.Object);
+			var engine = new FluidTemplateEngine(new FluidParserOptions { });
 
-            var result = await engine.RenderAsync(template.Object, context.Object);
+			var result = await engine.RenderAsync(template.Object, context.Object);
 
-            Assert.IsNull(result);
-        }
-    }
+			Assert.IsNull(result);
+		}
+	}
 }
