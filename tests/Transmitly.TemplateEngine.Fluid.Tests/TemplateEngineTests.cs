@@ -42,10 +42,43 @@ namespace Transmitly.TemplateEngine.Fluid.Tests
             Assert.IsNotNull(result);
             Assert.AreEqual(expected, result);
         }
+        class TestPlatformIdentity : IPlatformIdentity
+        {
+            public string? Id { get; set; }
+            public string? Name { get; set; }
+            public string? Type { get; set; }
+            public IReadOnlyCollection<IIdentityAddress> Addresses { get; set; }
+        }
+
+        [TestMethod]
+        public async Task CanHandleAudienceLists()
+        {
+            var expected = "Hello World!";
+            var templateContent = "Hello {{aud[0].Name}}!";
+            var template = new Mock<IContentTemplateRegistration>();
+            template.Setup(s => s.GetContentAsync(It.IsAny<IDispatchCommunicationContext>())).Returns(Task.FromResult<string?>(templateContent));
+
+            var tm = TransactionModel.Create(new { name = "Not World" });
+
+            var identity = new TestPlatformIdentity() { Name = "World" };
+
+            var contentModelType = typeof(IContentModel).Assembly.GetTypes().Where(t => t.Name == "ContentModel").First();
+            var cm = (IContentModel?)Activator.CreateInstance(contentModelType, tm, new List<IPlatformIdentity> { identity });
+
+            var context = new Mock<IDispatchCommunicationContext>();
+            context.Setup(s => s.ContentModel).Returns(cm);
+            var engine = new FluidTemplateEngine(new FluidParserOptions { });
+
+            var result = await engine.RenderAsync(template.Object, context.Object);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected, result);
+        }
 
         [TestMethod]
         public async Task CanRenderWithNullModel()
         {
+
             var expected = "Hello !";
             var templateContent = "Hello {{name}}!";
             var template = new Mock<IContentTemplateRegistration>();
