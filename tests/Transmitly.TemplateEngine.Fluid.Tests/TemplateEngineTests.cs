@@ -42,12 +42,14 @@ namespace Transmitly.TemplateEngine.Fluid.Tests
 			Assert.IsNotNull(result);
 			Assert.AreEqual(expected, result);
 		}
+
 		class TestPlatformIdentity : IPlatformIdentity
 		{
 			public string? Id { get; set; }
 			public string? Name { get; set; }
 			public string? Type { get; set; }
 			public IReadOnlyCollection<IIdentityAddress> Addresses { get; set; }
+			public IReadOnlyCollection<string> ChannelPreferences { get; set; } = [];
 		}
 
 		[TestMethod]
