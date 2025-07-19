@@ -15,6 +15,7 @@
 using Fluid;
 using Moq;
 using Transmitly.Template.Configuration;
+using Transmitly.Util;
 
 namespace Transmitly.TemplateEngine.Fluid.Tests
 {
@@ -48,8 +49,7 @@ namespace Transmitly.TemplateEngine.Fluid.Tests
 			public string? Id { get; set; }
 			public string? Name { get; set; }
 			public string? Type { get; set; }
-			public IReadOnlyCollection<IIdentityAddress> Addresses { get; set; } = [];
-			public IReadOnlyCollection<IChannelPreference>? ChannelPreferences { get; set; }
+			public IReadOnlyCollection<IPlatformIdentityAddress> Addresses { get; set; } = [];
 		}
 
 		//[TestMethod]
