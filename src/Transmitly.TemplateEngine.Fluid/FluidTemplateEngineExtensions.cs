@@ -15,6 +15,7 @@
 using Fluid;
 using System;
 using Transmitly.Template.Configuration;
+using Transmitly.Util;
 
 namespace Transmitly
 {
