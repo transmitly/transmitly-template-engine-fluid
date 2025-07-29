@@ -13,6 +13,7 @@ jobs:
     uses: transmitly/transmitly/.github/workflows/build-and-deploy-channel-provider.yml@main
     with: 
       channelProviderName: Transmitly.TemplateEngine.Fluid
+      runTests: true
     secrets: inherit
 
       

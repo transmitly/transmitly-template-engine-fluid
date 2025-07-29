@@ -14,6 +14,5 @@ jobs:
     uses: transmitly/transmitly/.github/workflows/release-channel-provider.yml@main
     with: 
       channelProviderName: Transmitly.TemplateEngine.Fluid
-      runTests: true
     secrets: inherit
       
