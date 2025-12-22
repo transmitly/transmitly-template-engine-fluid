@@ -1,6 +1,6 @@
 # Transmitly.TemplateEngine.Fluid
 
-A [Transmitly™](https://github.com/transmitly/transmitly) template engine that enables rendering templates with the [Fluid](https://github.com/sebastienros/fluid) template engine.
+A [Transmitly](https://github.com/transmitly/transmitly) template engine that enables rendering templates with the [Fluid](https://github.com/sebastienros/fluid) template engine.
 
 ### Getting started
 
@@ -21,16 +21,6 @@ var communicationClient = new CommunicationsClientBuilder()
 
 * Check out the [Transmitly](https://github.com/transmitly/transmitly) project for more details on what a template engine is and how it can be used to improve how you manage your customer communications.
 
-
-### Copyright and Trademark 
-
-Copyright © 2024–2025 Code Impressions, LLC.
-
-Transmitly™ is a trademark of Code Impressions, LLC.
-
-This open-source project is sponsored and maintained by Code Impressions
-and is licensed under the [Apache License, Version 2.0](http://apache.org/licenses/LICENSE-2.0.html).
-
-The Apache License applies to the software code only and does not grant
-permission to use the Transmitly name or logo, except as required to
-describe the origin of the software.
+---
+_Copyright © Code Impressions, LLC.  This open-source project is sponsored and maintained by Code Impressions
+and is licensed under the [Apache License, Version 2.0](http://apache.org/licenses/LICENSE-2.0.html)._
