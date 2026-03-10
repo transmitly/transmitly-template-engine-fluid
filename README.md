@@ -5,11 +5,9 @@
 This package is typically used alongside:
 
 - `Transmitly`
-- A Transmitly channel provider such as `Transmitly.ChannelProvider.Smtp`, `Transmitly.ChannelProvider.SendGrid`, or `Transmitly.ChannelProvider.Infobip`
+- a Transmitly channel provider such as `Transmitly.ChannelProvider.Smtp`, `Transmitly.ChannelProvider.SendGrid`, or `Transmitly.ChannelProvider.Infobip`
 
-## Installation
-
-Install the core library, this template engine, and a channel provider:
+## Install
 
 ```shell
 dotnet add package Transmitly
@@ -41,11 +39,7 @@ ICommunicationsClient client = new CommunicationsClientBuilder()
 				"""
 				<p>Hello {{firstName}},</p>
 				{% if trackingUrl %}
-				<p>
-					Your order has shipped.
-					Track it here:
-					<a href="{{trackingUrl}}">{{trackingNumber}}</a>
-				</p>
+				<p>Your order has shipped. <a href="{{trackingUrl}}">Track package {{trackingNumber}}</a>.</p>
 				{% else %}
 				<p>Your order has shipped.</p>
 				{% endif %}
@@ -68,22 +62,9 @@ var result = await client.DispatchAsync(
 	});
 ```
 
-## How It Fits Into Transmitly
+## Registration
 
-Transmitly templates are attached to channel content such as:
-
-- `email.Subject`
-- `email.HtmlBody`
-- `email.TextBody`
-- `sms.Message`
-- `push.Title`
-- `push.Body`
-
-When you call `DispatchAsync(...)`, Transmitly passes the model you supply into the registered template engine. With Fluid registered, placeholders like `{{firstName}}` are resolved from `context.ContentModel.Model`.
-
-## Registering The Engine
-
-Use either of these registration styles:
+Use either registration style:
 
 ```csharp
 new CommunicationsClientBuilder()
@@ -95,30 +76,19 @@ new CommunicationsClientBuilder()
 	.TemplateEngine.AddFluidTemplateEngine();
 ```
 
-If you need to customize Fluid parsing, use the overload that accepts `FluidParserOptions`:
-
-```csharp
-using Fluid;
-
-new CommunicationsClientBuilder()
-	.AddFluidTemplateEngine(options =>
-	{
-		// Configure FluidParserOptions here.
-	});
-```
+To customize parsing, use the overload that accepts `FluidParserOptions`.
 
 ## Template Sources
 
-The engine works with the normal Transmitly template registration APIs, including:
+The engine works with the normal Transmitly template registration APIs:
 
 - `AddStringTemplate(...)`
 - `AddEmbeddedResourceTemplate(...)`
 - `AddTemplateResolver(...)`
 
-That means you can keep templates inline, embed them in assemblies, or resolve them dynamically at dispatch time.
-
 ## Behavior Notes
 
+- Templates render against `context.ContentModel.Model`.
 - Invalid Fluid templates currently return `null` rather than throwing from this package.
 - A `null` content model is allowed; missing values render as empty output.
 - The current Transmitly core supports only one template engine registration per `CommunicationsClientBuilder`.
@@ -127,7 +97,6 @@ That means you can keep templates inline, embed them in assemblies, or resolve t
 
 - [Transmitly](https://github.com/transmitly/transmitly)
 - [Transmitly.TemplateEngine.Scriban](https://github.com/transmitly/transmitly-template-engine-scriban)
-- [Transmitly.ChannelProvider.Smtp](https://github.com/transmitly/transmitly-channel-provider-smtp)
 
 ---
 _Copyright (c) Code Impressions, LLC. This open-source project is sponsored and maintained by Code Impressions and is licensed under the [Apache License, Version 2.0](http://apache.org/licenses/LICENSE-2.0.html)._
