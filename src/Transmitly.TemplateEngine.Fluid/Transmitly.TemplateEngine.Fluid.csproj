@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net9.0;net8.0;net6.0;netstandard2.0</TargetFrameworks>
 	</PropertyGroup>
@@ -39,7 +39,7 @@
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.201" PrivateAssets="All" />
 		<PackageReference Include="PolySharp" Version="1.15.0" PrivateAssets="All" />
 		<PackageReference Include="Fluid.Core" Version="2.31.0" />
-		<PackageReference Include="Transmitly" Version="0.3.0" />
+		<PackageReference Include="Transmitly" Version="0.4.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
