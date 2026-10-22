@@ -52,7 +52,7 @@ ICommunicationsClient client = new CommunicationsClientBuilder()
 
 var result = await client.DispatchAsync(
 	"order-shipped",
-	"customer@example.com".AsIdentityAddress("Ava Example"),
+	"customer@example.com",
 	new
 	{
 		firstName = "Ava",
